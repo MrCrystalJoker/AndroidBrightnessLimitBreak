@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="检查中…"
+        android:textSize="15sp"
+        android:lineSpacingExtra="4dp" />
+
+    <Button
+        android:id="@+id/btn_shizuku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="授权 Shizuku" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动常驻服务" />
+
+    <Button
+        android:id="@+id/btn_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开亮度面板" />
+
+    <Button
+        android:id="@+id/btn_notify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="授予通知权限" />
+
+    <Button
+        android:id="@+id/btn_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="授予悬浮窗权限（极暗档）" />
+
+</LinearLayout>
