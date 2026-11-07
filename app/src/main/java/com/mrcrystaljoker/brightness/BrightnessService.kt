@@ -24,6 +24,11 @@ class BrightnessService : Service() {
         const val ACTION_REFRESH = "com.mrcrystaljoker.brightness.REFRESH"
         const val EXTRA_DELTA = "delta"
 
+        /** 进程内标记，供保活任务判断服务是否还活着 */
+        @Volatile
+        var isRunning: Boolean = false
+            private set
+
         fun start(context: Context) {
             val intent = Intent(context, BrightnessService::class.java)
             context.startForegroundService(intent)
@@ -60,6 +65,7 @@ class BrightnessService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        isRunning = true
         notificationManager = getSystemService(NotificationManager::class.java)
         mask = MaskOverlay(this)
         BrightnessController.listener = { pct ->
@@ -99,6 +105,7 @@ class BrightnessService : Service() {
     }
 
     override fun onDestroy() {
+        isRunning = false
         runCatching { unregisterReceiver(screenReceiver) }
         runCatching { unregisterReceiver(refreshReceiver) }
         BrightnessController.listener = null
@@ -110,6 +117,15 @@ class BrightnessService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        // 用户从最近任务划掉 App 时，服务本身应该继续跑；
+        // 如果系统顺手把它停了，这里补一次重启。
+        if (!isRunning && BrightnessController.hasPermission()) {
+            runCatching { BrightnessService.start(this@BrightnessService) }
+        }
+        super.onTaskRemoved(rootIntent)
+    }
 
     private fun createChannel() {
         val channel = NotificationChannel(

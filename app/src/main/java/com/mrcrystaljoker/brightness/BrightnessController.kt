@@ -121,6 +121,10 @@ object BrightnessController {
     fun enableAutoBrightness(): Boolean =
         runShell("settings", "put", "system", "screen_brightness_mode", "1")
 
+    /** 用 shell 权限把 App 加进 Doze 电池优化白名单 */
+    fun whitelistSelf(pkg: String): Boolean =
+        runShell("dumpsys", "deviceidle", "whitelist", "+$pkg")
+
     private val newProcessMethod: java.lang.reflect.Method? by lazy {
         runCatching {
             Shizuku::class.java.getDeclaredMethod(

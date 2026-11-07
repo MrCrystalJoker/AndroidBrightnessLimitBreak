@@ -44,4 +44,10 @@
         android:layout_height="wrap_content"
         android:text="授予悬浮窗权限（极暗档）" />
 
+    <Button
+        android:id="@+id/btn_battery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="关闭电池优化（保活）" />
+
 </LinearLayout>
